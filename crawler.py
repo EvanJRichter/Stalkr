@@ -27,13 +27,31 @@ def linkedin_stalk(name, location):
 	if positiontemp:
 		stalkee.position = positiontemp
 
+
 	imagetemp = find_stalkee_attribute_markup(soup, "alt", stalkee.name)
 	if imagetemp:
 		stalkee.image = imagetemp
 
-	#TODO: Location, industry
+
+	locationtemp = find_stalkee_attribute_text(soup, "class", "locality")
+	if locationtemp:
+		stalkee.location = locationtemp
+
+	locationtemp = find_stalkee_attribute_text(soup, "class", "locality")
+	if locationtemp:
+		stalkee.location = locationtemp
+
+	industrytemp = find_stalkee_attribute_text(soup, "class", "industry")
+	if industrytemp:
+		stalkee.industry = industrytemp
 
 	return stalkee
+
+def facebook_stalk(name, location):
+	url = "facebook.com/public/"
+	url = url + name + location
+	results = unirest.get(url).body
+	resultssoup = BeautifulSoup(result)
 
 
 #searches soup for tag with specific value, returns text
