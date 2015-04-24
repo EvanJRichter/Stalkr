@@ -1,41 +1,35 @@
-#Created by Evan Richter
-
-class Person: 
-
-    def __init__(self):
-    	self.name = ""
-        self.position = ""
-        self.location = ""
-        self.industry = ""
-        self.image = ""
-
-        """
-
-    def getTitle(self):
-    	return self.title
-    def setTitle(self, newtitle):
-    	self.title = newtitle
-
-    def getArtist(self):
-        return self.artist
-    def setArtist(self, newartist):
-        self.artist = newartist
-
-    def getLength(self):
-        return self.length
-    def setLength(self, length):
-        self.length = length
-
-    def getUri(self):
-        return self.uri
-    def setUri(self, newUri):
-        self.uri = newUri
-
-    def getId(self):
-        return self.id
-    def setId(self, newid):
-        self.id = newid
-"""
 
 
+class Person:
 
+	def __init__(self, name="John Doe", position="Loser", location="In hiding", industry="Plastics", image="<image src =\"http://upload.wikimedia.org/wikipedia/en/c/c8/CarterIII.jpg\"/>"):
+		self.name = name
+		self.position = position
+		self.location = location
+		self.industry = industry
+		self.image = image
+
+	def getName(self):
+		return self.name
+	def setName(self, name):
+		self.name = name
+
+	def getPosition(self):
+		return self.position
+	def setName(self, position):
+		self.positon = position
+
+	def getLocation(self):
+		return self.position
+	def setLocation(self, position):
+		self.position = position
+
+	def getIndustry(self):
+		return self.industry
+	def setIndustry(self, industry):
+		self.industry = industry
+
+	def getImage(self):
+		return self.image
+	def setImage(self, image):
+		self.image = image
