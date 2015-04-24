@@ -3,7 +3,7 @@
 
 class Person:
 
-	def __init__(self, name="John Doe", position="Loser", location="Up your butt", industry="Plastics", image="<image src =\"http://upload.wikimedia.org/wikipedia/en/c/c8/CarterIII.jpg\"/>"):
+	def __init__(self, name="John Doe", position="Loser", location="In hiding", industry="Plastics", image="<image src =\"http://upload.wikimedia.org/wikipedia/en/c/c8/CarterIII.jpg\"/>"):
 		self.name = name
 		self.position = position
 		self.location = location

@@ -34,6 +34,21 @@ class HelloTestCase(unittest.TestCase):
 		stalkee = crawler.linkedin_stalk("Colton Cannon", "Champaign")
 		assert stalkee.position == "Student at University of Illinois at Urbana-Champaign"
 
+	def test_create_person(self):
+		person = Person()
+		assert person != None
+
+	def test_person_defaults(self):
+		person = Person()
+		assert person.name = "John Doe"
+
+	def test_person_name(self):
+		person = Person(name = "Stephen Herring")
+		assert person.name = "Stephen Herring")
+
+	
+
+
 
 if __name__ == '__main__':
 	unittest.main()
