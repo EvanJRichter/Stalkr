@@ -1,4 +1,6 @@
 from flask import Flask, render_template, url_for, copy_current_request_context, request, jsonify, Response, json, redirect
+from person import Person
+
 import requests
 import crawler
 
@@ -18,9 +20,9 @@ def my_form_post():
 		stalkee_name = request.form['stalkee_name']
 		stalkee_location = request.form['stalkee_location']
 
-		linkedin_info = crawler.linkedin_stalk(stalkee_name, stalkee_location)
+		linkedin_stalkee = crawler.linkedin_stalk(stalkee_name, stalkee_location)
 
-	return render_template("results.html", facebook_information = linkedin_info)
+	return render_template("results.html", linkedin_information = linkedin_stalkee)
 
 
 

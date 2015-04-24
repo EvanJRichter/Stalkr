@@ -1,8 +1,9 @@
 
 
+
 class Person:
 
-	def _init_(self, name="John Doe", position="Loser", location="Up your butt", industry="Plastics", image="<image src =\"http://upload.wikimedia.org/wikipedia/en/c/c8/CarterIII.jpg\"/>"):
+	def __init__(self, name="John Doe", position="Loser", location="Up your butt", industry="Plastics", image="<image src =\"http://upload.wikimedia.org/wikipedia/en/c/c8/CarterIII.jpg\"/>"):
 		self.name = name
 		self.position = position
 		self.location = location
@@ -33,3 +34,4 @@ class Person:
 		return self.image
 	def setImage(self, image):
 		self.image = image
+
