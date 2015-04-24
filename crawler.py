@@ -10,36 +10,32 @@ def linkedin_stalk(name, location):
 	googlestring = name.replace(" ", "+") + "+" + location + "+linkedin" 
 	url = google_first_result(googlestring)
 
+	#if the google search does not return a linkedin profile
+	if "vsearch" in url:
+		return stalkee
+
 	#beautiful soupify the first result
 	result = unirest.get(url).body
 	soup = BeautifulSoup(result)
 
-	#look for header information
-	"""
-	profile_info_raw = soup.find_all(True, {"data-li-template":"p2_basic_info"})
-	try:
-		profile_info_text = ''.join(profile_info_raw[0].find_all(text=True))
-		profile_info = profile_info_text.strip()
-		total_info.append(profile_info)
-	except IndexError:
-		total_info.append("Couldn't find information...")
-	"""
+	#retrieve stalkee attributes from soup
+	nametemp = find_stalkee_attribute_text(soup, "id", "name-container")
+	if nametemp:
+		stalkee.name = nametemp
 
-	#look for name information
-	profile_name_raw = soup.find_all(True, {"id":"name-container"})
-	try:
-		profile_name_text = ''.join(profile_name_raw[0].find_all(text=True))
-		stalkee.name = profile_name_text.strip()
-	except IndexError:
-		stalkee.name = "Couldn't find name..."
+	positiontemp = find_stalkee_attribute_text(soup, "class", "title")
+	if positiontemp:
+		stalkee.position = positiontemp
 
-	#look for position information
-	profile_position_raw = soup.find_all(True, {"class":"title"})
-	try:
-		profile_position_text = ''.join(profile_position_raw[0].find_all(text=True))
-		stalkee.position = profile_position_text.strip()
-	except IndexError:
-		stalkee.name = "Couldn't find position..."
+
+	imagetemp = find_stalkee_attribute_markup(soup, "alt", stalkee.name)
+	if imagetemp:
+		stalkee.image = imagetemp
+
+
+	#TODO: Location, industry
+
+	return stalkee
 
 def facebook_stalk(name, location):
 	url = "facebook.com/public/"
@@ -47,27 +43,34 @@ def facebook_stalk(name, location):
 	results = unirest.get(url).body
 	resultssoup = BeautifulSoup(result)
 
-	
 
-
-	#TODO: Location, industry
-
-
-	#get picture
-	profile_pic_raw = soup.find_all(True, {"alt":stalkee.name})
+#searches soup for tag with specific value, returns text
+def find_stalkee_attribute_text(soup, tag, tag_value):
+	raw_markup = soup.find_all(True, {tag:tag_value})
 	try:
-		stalkee.image = profile_pic_raw[0]
+		raw_text = ''.join(raw_markup[0].find_all(text=True))
+		return raw_text.strip()
 	except IndexError:
-		stalkee.image = "Couldn't find image..."
+		return None
 
-	return stalkee
+#searches soup for tag with specific value, returns raw markup
+def find_stalkee_attribute_markup(soup, tag, tag_value):
+	raw_markup = soup.find_all(True, {tag:tag_value})
+	try:
+		return raw_markup[0]
+	except IndexError:
+		return None
 
 #returns first google result of string
 def google_first_result(googlestring):
 	pygoog = pygoogle(googlestring)
 	pygoog.pages = 1
 	urls = pygoog.get_urls()
-	return urls[0]
+	try:		
+		return urls[0]
+	except IndexError:
+		return "http://www.google.com"
+
 
 
 
