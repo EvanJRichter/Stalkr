@@ -26,6 +26,14 @@ def linkedin_stalk(name, location):
 	nametext = ''.join(name[0].findAll(text=True))
 	return nametext.strip()
 
+def facebook_stalk(name, location):
+	url = "facebook.com/public/"
+	url = url + name + location
+	results = unirest.get(url).body
+	resultssoup = BeautifulSoup(result)
+
+	
+
 
 
 
