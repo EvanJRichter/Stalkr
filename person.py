@@ -3,12 +3,13 @@
 
 class Person:
 
-	def __init__(self, name="John Doe", position="Loser", location="In hiding", industry="Plastics", image="<image src =\"http://upload.wikimedia.org/wikipedia/en/c/c8/CarterIII.jpg\"/>"):
+	def __init__(self, name="John Doe", position="Loser", location="In hiding", industry="Plastics", image="<image src =\"http://upload.wikimedia.org/wikipedia/en/c/c8/CarterIII.jpg\"/>", contact = "bumpotrungis@gmail.com"):
 		self.name = name
 		self.position = position
 		self.location = location
 		self.industry = industry
 		self.image = image
+		self.contact = contact
 
 	def getName(self):
 		return self.name
@@ -35,3 +36,7 @@ class Person:
 	def setImage(self, image):
 		self.image = image
 
+	def getContact(self):
+		return self.contact
+	def setContact(self, contact):
+		self.contact = contact

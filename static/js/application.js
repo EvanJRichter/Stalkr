@@ -1,4 +1,4 @@
-
+/*
 $(function() { 
     $('.searchresultbutton').bind('click', function() {
         //TODO: change IP to something general
@@ -41,10 +41,7 @@ function get_songlist() {
             song_string += "</form>";
         });
          
-        $('.songlist').html(song_string);/*.animate({
-                opacity: 1 // Animate opacity to 1 with a duration of 1 sec
-            }, 1000);
-        */
+        $('.songlist').html(song_string);
     });
 }
 setInterval('get_songlist()', 2000);
@@ -90,6 +87,6 @@ function play_song() {
 
 
 
-
+*/
 
 
