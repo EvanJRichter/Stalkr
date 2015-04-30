@@ -100,6 +100,11 @@ input[type=submit].searchresultbutton {
     z-index: 1;
 }
 
+.stalkee_image {
+	width: 200px;
+	height: 200px;
+}
+
 
 
 

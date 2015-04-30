@@ -20,9 +20,13 @@ def my_form_post():
 		stalkee_name = request.form['stalkee_name']
 		stalkee_location = request.form['stalkee_location']
 
-		linkedin_stalkee = crawler.linkedin_stalk(stalkee_name, stalkee_location)
+		linkedin_stalkee = Person()
+		linkedin_stalkee.images = []
+		linkedin_stalkee = crawler.linkedin_stalk(stalkee_name, stalkee_location, linkedin_stalkee)
+		linkedin_stalkee = crawler.facebook_stalk(stalkee_name, stalkee_location, linkedin_stalkee)
+		return render_template("results.html", linkedin_information = linkedin_stalkee)
 
-	return render_template("results.html", linkedin_information = linkedin_stalkee)
+	return render_template("index.html")
 
 
 
