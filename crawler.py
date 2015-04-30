@@ -37,9 +37,6 @@ def linkedin_stalk(name, location):
 	if locationtemp:
 		stalkee.location = locationtemp
 
-	locationtemp = find_stalkee_attribute_text(soup, "class", "locality")
-	if locationtemp:
-		stalkee.location = locationtemp
 
 	industrytemp = find_stalkee_attribute_text(soup, "class", "industry")
 	if industrytemp:
