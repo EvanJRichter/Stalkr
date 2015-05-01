@@ -45,9 +45,6 @@ def linkedin_retrieve_data(page_html, stalkee):
 		stalkee.images.append(html_split[0])
 
 
-	locationtemp = find_stalkee_attribute_text(soup, "class", "locality")
-	if locationtemp:
-		stalkee.location = locationtemp
 
 	industrytemp = find_stalkee_attribute_text(soup, "class", "industry")
 	if industrytemp:

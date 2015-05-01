@@ -3,6 +3,7 @@ from person import Person
 
 import requests
 import crawler
+import jsonpickle
 
 app = Flask(__name__)
 
@@ -27,6 +28,22 @@ def my_form_post():
 		return render_template("results.html", linkedin_information = linkedin_stalkee)
 
 	return render_template("index.html")
+
+@app.route('/_auto_results')
+def get_search():
+	name = request.args.get("name", "", type = str)
+	
+	location = request.args.get("location", "", type = str)
+
+
+	stalkee = Person()
+	stalkee.images = []
+	stalkee = crawler.linkedin_stalk(name, location, stalkee)
+	stalkee = crawler.facebook_stalk(name, location, stalkee)
+
+	
+	return jsonpickle.encode(stalkee)
+
 
 
 
