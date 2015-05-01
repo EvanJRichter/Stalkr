@@ -20,7 +20,7 @@ function search(){
 		}, function(data) {
 			console.log(data);
 			results_box = $(".auto_results");
-			results_box.html(data.name + "<img src = " + data.images[0] + ">" + "<img src = " + data.images[1] + ">" + data.position + data.location + data.industry);
+			results_box.html(data.name + "<img src = " + data.images[0] + ">" + data.position + data.location + data.industry);
 
 
 
