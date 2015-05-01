@@ -38,11 +38,9 @@ def linkedin_retrieve_data(page_html, stalkee):
 
 	imagetemp = find_stalkee_attribute_markup(soup, "alt", stalkee.name)
 	if imagetemp:
-		print imagetemp
+		#get src from markup
 		html_split = str(imagetemp).split("src=")
 		html_split = html_split[1].split("width")
-		print "appending linkedin image..."
-		print html_split[0]
 
 		stalkee.images.append(html_split[0])
 
@@ -101,22 +99,18 @@ def facebook_stalk(name, location, stalkee):
 	return stalkee
 
 def facebook_retrieve_data(page_html, stalkee):
-	print "retrieving data"
+	#get source of image from markup
 	html_split = page_html.split("<img class=\"profilePic img\"")
 	html_split = html_split[1].split("src=")
 	html_split = html_split[1].split("/>")
 
-	print "appending facebook image..."
-	print html_split[0]
-
-	#imagetemp = find_stalkee_attribute_markup(soup, "class", "profilePic img")
-	#if imagetemp:
-
 	stalkee.images.append(html_split[0].replace("amp;", ""))
 
-	#print "printing image"
-	#print imagetemp
-	#print "done"
+	html_split = page_html.split("<img class=\"coverPhotoImg photo img\"")
+	html_split = html_split[1].split("src=")
+	html_split = html_split[1].split("/>")
+
+	stalkee.images.append(html_split[0].replace("amp;", ""))
 
 	return stalkee
 
