@@ -98,6 +98,8 @@ def facebook_stalk(name, location, stalkee):
 def facebook_retrieve_data(page_html, stalkee):
 	#get source of image from markup
 	html_split = page_html.split("<img class=\"profilePic img\"")
+	if len(html_split) < 2:
+		return stalkee
 	html_split = html_split[1].split("src=")
 	html_split = html_split[1].split("/>")
 

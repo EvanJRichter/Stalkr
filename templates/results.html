@@ -7,33 +7,41 @@
 </head>
 
 <body>
+
+
 	<form action = "." method = "POST">
-		<br>
-		<br>
-		<h1>You want da dirt? Here's da dirt.</h1>
-		<br>
-		<br>
 
-		<audio controls autoplay>
-                <source src="static/audio/dadirt.mp3" type="audio/mp3" opacity="0">
-                Your browser does not support this audio format.
-        </audio>
+		<div class="header">
+			<br>
+			<br>
+			<h1>You want da dirt? Here's da dirt.</h1>
+			<br>
+			<br>
 
-        <br>
+			<audio controls autoplay>
+	                <source src="static/audio/dadirt.mp3" type="audio/mp3" opacity="0">
+	                Your browser does not support this audio format.
+	        </audio>
 
-		{% for img_src in linkedin_information.images %}	
-			<img class="stalkee_image" src={{img_src|safe}}/>
-		{% endfor %}
-		<br>
-		<p>Name: {{linkedin_information.name|safe}} <p>
-		<br>
-		<p>Position: {{linkedin_information.position|safe}} <p>
-		<br>
-		<p>Location: {{linkedin_information.location|safe}} <p>
-		<br>
-		<p>Industry: {{linkedin_information.industry|safe}} <p>
-		<br>
-		<p>Contact: {{linkedin_information.contact|safe}} <p>
+	    </div>
+
+	    <div class="pics">
+			{% for img_src in linkedin_information.images %}	
+				<img class="stalkee_image" src={{img_src|safe}}/>
+			{% endfor %}
+		</div>
+		<div class="info">
+			<br>
+			<p>Name: {{linkedin_information.name|safe}} <p>
+			<br>
+			<p>Position: {{linkedin_information.position|safe}} <p>
+			<br>
+			<p>Location: {{linkedin_information.location|safe}} <p>
+			<br>
+			<p>Industry: {{linkedin_information.industry|safe}} <p>
+			<br>
+			<p>Contact: {{linkedin_information.contact|safe}} <p>
+		</div>
 
 	</form>
 
