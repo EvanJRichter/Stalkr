@@ -1,12 +1,11 @@
 import unirest
+import requests
 from person import Person
 from pygoogle import pygoogle
 from bs4 import BeautifulSoup
 
 #takes a name and a location, googles for that, gets information from the first result.
-def linkedin_stalk(name, location):
-	stalkee = Person()
-
+def linkedin_stalk(name, location, stalkee):
 	googlestring = name.replace(" ", "+") + "+" + location + "+linkedin" 
 	url = google_first_result(googlestring)
 
@@ -14,11 +13,21 @@ def linkedin_stalk(name, location):
 	if "vsearch" in url:
 		return stalkee
 
-	#beautiful soupify the first result
+	#get data not logged in
 	result = unirest.get(url).body
-	soup = BeautifulSoup(result)
+	stalkee = linkedin_retrieve_data(result, stalkee)
 
-	#retrieve stalkee attributes from soup
+	#log into linkedin to get more information, since it may differ
+	client = login_linkedin();
+	logged_in_page = client.get(url)
+	stalkee = linkedin_retrieve_data(logged_in_page.text, stalkee)
+
+	return stalkee
+
+#retrieve stalkee attributes from soup
+def linkedin_retrieve_data(page_html, stalkee):
+	soup = BeautifulSoup(page_html)
+
 	nametemp = find_stalkee_attribute_text(soup, "id", "name-container")
 	if nametemp:
 		stalkee.name = nametemp
@@ -27,28 +36,88 @@ def linkedin_stalk(name, location):
 	if positiontemp:
 		stalkee.position = positiontemp
 
-
 	imagetemp = find_stalkee_attribute_markup(soup, "alt", stalkee.name)
 	if imagetemp:
-		stalkee.image = imagetemp
+		print imagetemp
+		html_split = str(imagetemp).split("src=")
+		html_split = html_split[1].split("width")
+		print "appending linkedin image..."
+		print html_split[0]
 
+		stalkee.images.append(html_split[0])
 
-	locationtemp = find_stalkee_attribute_text(soup, "class", "locality")
-	if locationtemp:
-		stalkee.location = locationtemp
 
 
 	industrytemp = find_stalkee_attribute_text(soup, "class", "industry")
 	if industrytemp:
 		stalkee.industry = industrytemp
 
+	contacttemp = find_stalkee_attribute_text(soup, "id", "contact-comments-view")
+	if contacttemp:
+		stalkee.contact = contacttemp
+
+
 	return stalkee
 
-def facebook_stalk(name, location):
-	url = "facebook.com/public/"
-	url = url + name + location
+#logs into linkedin and returns a client
+def login_linkedin():
+	client = requests.Session()
+
+	HOMEPAGE_URL = 'https://www.linkedin.com'
+	LOGIN_URL = 'https://www.linkedin.com/uas/login-submit'
+
+	html = client.get(HOMEPAGE_URL).content
+	soup = BeautifulSoup(html)
+	csrf = soup.find(id="loginCsrfParam-login")['value']
+
+	login_information = {
+	    'session_key':'brumpotungis@gmail.com',
+	    'session_password':'stalkingisfun',
+	    'loginCsrfParam': csrf,
+	}
+
+	client.post(LOGIN_URL, data=login_information)
+	return client
+
+#retrieves URL of stalkee's page, then calls retrieve data with html of page
+def facebook_stalk(name, location, stalkee):
+	name = name.replace(" ", "-")
+	fb_url = "https://www.facebook.com/public/"
+	url = fb_url + name 
 	results = unirest.get(url).body
-	resultssoup = BeautifulSoup(result)
+
+	#facebook doesn't like beautiful soup, we have to find the URL ourselves
+	result_split = results.split("instant_search_title fsl fwb fcb\"><a href=\"")
+	result_split = result_split[1].split("\"")
+	stalkee_url = result_split[0]
+
+	results = unirest.get(stalkee_url).body
+	resultssoup = BeautifulSoup(results)
+
+	stalkee = facebook_retrieve_data(results, stalkee)
+	return stalkee
+
+def facebook_retrieve_data(page_html, stalkee):
+	print "retrieving data"
+	html_split = page_html.split("<img class=\"profilePic img\"")
+	html_split = html_split[1].split("src=")
+	html_split = html_split[1].split("/>")
+
+	print "appending facebook image..."
+	print html_split[0]
+
+	#imagetemp = find_stalkee_attribute_markup(soup, "class", "profilePic img")
+	#if imagetemp:
+
+	stalkee.images.append(html_split[0].replace("amp;", ""))
+
+	#print "printing image"
+	#print imagetemp
+	#print "done"
+
+	return stalkee
+
+
 
 
 #searches soup for tag with specific value, returns text
@@ -77,6 +146,8 @@ def google_first_result(googlestring):
 		return urls[0]
 	except IndexError:
 		return "http://www.google.com"
+
+
 
 
 

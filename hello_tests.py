@@ -40,11 +40,11 @@ class HelloTestCase(unittest.TestCase):
 
 	def test_person_defaults(self):
 		person = Person()
-		assert person.name = "John Doe"
+		assert person.name == "John Doe"
 
 	def test_person_name(self):
 		person = Person(name = "Stephen Herring")
-		assert person.name = "Stephen Herring")
+		assert person.name == "Stephen Herring"
 
 	
 

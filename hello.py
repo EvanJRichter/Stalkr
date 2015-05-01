@@ -21,19 +21,27 @@ def my_form_post():
 		stalkee_name = request.form['stalkee_name']
 		stalkee_location = request.form['stalkee_location']
 
-		linkedin_stalkee = crawler.linkedin_stalk(stalkee_name, stalkee_location)
+		linkedin_stalkee = Person()
+		linkedin_stalkee.images = []
+		linkedin_stalkee = crawler.linkedin_stalk(stalkee_name, stalkee_location, linkedin_stalkee)
+		linkedin_stalkee = crawler.facebook_stalk(stalkee_name, stalkee_location, linkedin_stalkee)
+		return render_template("results.html", linkedin_information = linkedin_stalkee)
 
-	return render_template("results.html", linkedin_information = linkedin_stalkee)
+	return render_template("index.html")
 
 @app.route('/_auto_results')
 def get_search():
 	name = request.args.get("name", "", type = str)
-	print name
+	
 	location = request.args.get("location", "", type = str)
 
-	stalkee = crawler.linkedin_stalk(name, location)
 
-	print stalkee.name
+	stalkee = Person()
+	stalkee.images = []
+	stalkee = crawler.linkedin_stalk(name, location, stalkee)
+	stalkee = crawler.facebook_stalk(name, location, stalkee)
+
+	
 	return jsonpickle.encode(stalkee)
 
 
